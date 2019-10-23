@@ -8,7 +8,7 @@
                 :content="answer"
                 :class="{
                     'incorrect': answerGiven === answer && answerGiven !== correctAnswer,
-                    'correct': answerGiven === answer && answerGiven === correctAnswer
+                    'correct': answerGiven && answer === correctAnswer
                 }"
                 @click="answerGiven = answer"/>
     </div>

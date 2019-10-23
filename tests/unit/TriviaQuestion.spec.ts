@@ -58,4 +58,11 @@ describe("TriviaQuestion", () => {
 
         expect(wrapper.find(`.possible-answer[content="${correctAnswer}"]`).classes("correct")).toBe(true);
     });
+
+    it("Highlights the correct answer with '.correct' when an incorrect answer is given", () => {
+        const incorrectAnswer: string = trivia.incorrect_answers[0];
+        wrapper.find(`.possible-answer[content="${incorrectAnswer}"]`).trigger("click");
+
+        expect(wrapper.find(`.possible-answer[content="${trivia.correct_answer}"]`).classes("correct")).toBe(true);
+    });
 });
