@@ -51,4 +51,11 @@ describe("TriviaQuestion", () => {
 
         expect(wrapper.find(`.possible-answer[content="${incorrectAnswer}"]`).classes("incorrect")).toBe(true);
     });
+
+    it("Highlights the answer selected with '.incorrect' if the answer selected is wrong", () => {
+        const correctAnswer: string = trivia.correct_answer;
+        wrapper.find(`.possible-answer[content="${correctAnswer}"]`).trigger("click");
+
+        expect(wrapper.find(`.possible-answer[content="${correctAnswer}"]`).classes("correct")).toBe(true);
+    });
 });

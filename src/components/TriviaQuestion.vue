@@ -7,7 +7,8 @@
                 v-text="answer"
                 :content="answer"
                 :class="{
-                    'incorrect': answerGiven === answer && answerGiven !== correctAnswer
+                    'incorrect': answerGiven === answer && answerGiven !== correctAnswer,
+                    'correct': answerGiven === answer && answerGiven === correctAnswer
                 }"
                 @click="answerGiven = answer"/>
     </div>
