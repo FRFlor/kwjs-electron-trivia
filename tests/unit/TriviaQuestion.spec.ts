@@ -39,4 +39,16 @@ describe("TriviaQuestion", () => {
             expect(wrapper.find(`.possible-answer[content="${answer}"]`).exists()).toBe(true);
         });
     });
+
+    it("Starts with no button having '.incorrect' or '.correct' highlights", () => {
+        expect(wrapper.find(".possible-answer.incorrect").exists()).toBe(false);
+        expect(wrapper.find(".possible-answer.correct").exists()).toBe(false);
+    });
+
+    it("Highlights the answer selected with '.incorrect' if the answer selected is wrong", () => {
+        const incorrectAnswer: string = trivia.incorrect_answers[0];
+        wrapper.find(`.possible-answer[content="${incorrectAnswer}"]`).trigger("click");
+
+        expect(wrapper.find(`.possible-answer[content="${incorrectAnswer}"]`).classes("incorrect")).toBe(true);
+    });
 });
