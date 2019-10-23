@@ -1,6 +1,6 @@
 <template>
     <div id="app">
-        <trivia-question :trivia="question"/>
+        <trivia-question v-if="currentQuestion" :trivia="currentQuestion"/>
     </div>
 </template>
 
@@ -8,6 +8,19 @@
     import {Component, Vue} from "vue-property-decorator";
     import TriviaQuestion from "@/components/TriviaQuestion.vue";
     import {ITrivia} from "@/types";
+    import axios from "axios";
+    import {ITriviaGetResponse} from "./types/ITriviaGetResponse";
+
+    const decodeQuestion = (encoded: ITrivia): ITrivia => {
+        return {
+            category: atob(encoded.category),
+            correct_answer: atob(encoded.correct_answer),
+            difficulty: atob(encoded.difficulty),
+            incorrect_answers: encoded.incorrect_answers.map((encodedAnswer: string): string => atob(encodedAnswer)),
+            question: atob(encoded.question),
+            type: atob(encoded.type),
+        };
+    };
 
     @Component({
         components: {
@@ -15,18 +28,27 @@
         },
     })
     export default class App extends Vue {
-        private question: ITrivia = {
-            category: "Movies",
-            correct_answer: "Movie that is correct",
-            difficulty: "Easy",
-            incorrect_answers: [
-                "Wrong Movie 1",
-                "Wrong Movie 2",
-                "Wrong Movie 3",
-            ],
-            question: "What is the right movie?",
-            type: "Multiple-choice",
-        };
+        private questions: ITrivia[] = [];
+
+        async created() {
+            try {
+                const response = await axios.get<ITriviaGetResponse>(
+                    "https://opentdb.com/api.php?amount=10&type=multiple&encode=base64"
+                );
+
+                this.questions = response.data.results.map(decodeQuestion);
+            } catch (e) {
+                console.error(e);
+            }
+        }
+
+        private get currentQuestion(): ITrivia | null {
+            if (this.questions.length === 0) {
+                return null;
+            }
+
+            return this.questions[0];
+        }
     }
 </script>
 
