@@ -1,6 +1,9 @@
 <template>
     <div id="app">
-        <trivia-question v-if="currentQuestion" :trivia="currentQuestion"/>
+        <trivia-question v-if="currentQuestion"
+                         :trivia="currentQuestion"
+                         @correct-answer="onQuestionAnswered"
+                         @incorrect-answer="onQuestionAnswered"/>
     </div>
 </template>
 
@@ -29,6 +32,7 @@
     })
     export default class App extends Vue {
         private questions: ITrivia[] = [];
+        private currentQuestionIndex: number = 0;
 
         async created() {
             try {
@@ -47,7 +51,11 @@
                 return null;
             }
 
-            return this.questions[0];
+            return this.questions[this.currentQuestionIndex];
+        }
+
+        private onQuestionAnswered(): void {
+            setTimeout(() => this.currentQuestionIndex++, 1000);
         }
     }
 </script>
