@@ -8,56 +8,56 @@
 </template>
 
 <script lang="ts">
-    import {Component, Vue} from "vue-property-decorator";
-    import TriviaQuestion from "@/components/TriviaQuestion.vue";
-    import {ITrivia} from "@/types";
-    import axios from "axios";
-    import {ITriviaGetResponse} from "./types/ITriviaGetResponse";
+import {Component, Vue} from "vue-property-decorator";
+import TriviaQuestion from "@/components/TriviaQuestion.vue";
+import {ITrivia} from "@/types";
+import axios from "axios";
+import {ITriviaGetResponse} from "./types/ITriviaGetResponse";
 
-    const decodeQuestion = (encoded: ITrivia): ITrivia => {
-        return {
-            category: atob(encoded.category),
-            correct_answer: atob(encoded.correct_answer),
-            difficulty: atob(encoded.difficulty),
-            incorrect_answers: encoded.incorrect_answers.map((encodedAnswer: string): string => atob(encodedAnswer)),
-            question: atob(encoded.question),
-            type: atob(encoded.type),
-        };
+const decodeQuestion = (encoded: ITrivia): ITrivia => {
+    return {
+        category: atob(encoded.category),
+        correct_answer: atob(encoded.correct_answer),
+        difficulty: atob(encoded.difficulty),
+        incorrect_answers: encoded.incorrect_answers.map((encodedAnswer: string): string => atob(encodedAnswer)),
+        question: atob(encoded.question),
+        type: atob(encoded.type),
     };
+};
 
-    @Component({
-        components: {
-            TriviaQuestion
-        },
-    })
-    export default class App extends Vue {
-        private questions: ITrivia[] = [];
-        private currentQuestionIndex: number = 0;
+@Component({
+    components: {
+        TriviaQuestion,
+    },
+})
+export default class App extends Vue {
+    private questions: ITrivia[] = [];
+    private currentQuestionIndex: number = 0;
 
-        async created() {
-            try {
-                const response = await axios.get<ITriviaGetResponse>(
-                    "https://opentdb.com/api.php?amount=10&type=multiple&encode=base64"
-                );
+    public async created() {
+        try {
+            const response = await axios.get<ITriviaGetResponse>(
+                "https://opentdb.com/api.php?amount=10&type=multiple&encode=base64",
+            );
 
-                this.questions = response.data.results.map(decodeQuestion);
-            } catch (e) {
-                console.error(e);
-            }
-        }
-
-        private get currentQuestion(): ITrivia | null {
-            if (this.questions.length === 0) {
-                return null;
-            }
-
-            return this.questions[this.currentQuestionIndex];
-        }
-
-        private onQuestionAnswered(): void {
-            setTimeout(() => this.currentQuestionIndex++, 1000);
+            this.questions = response.data.results.map(decodeQuestion);
+        } catch (e) {
+            console.error(e);
         }
     }
+
+    private get currentQuestion(): ITrivia | null {
+        if (this.questions.length === 0) {
+            return null;
+        }
+
+        return this.questions[this.currentQuestionIndex];
+    }
+
+    private onQuestionAnswered(): void {
+        setTimeout(() => this.currentQuestionIndex++, 1000);
+    }
+}
 </script>
 
 <style lang="scss">
