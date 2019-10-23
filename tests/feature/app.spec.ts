@@ -37,4 +37,13 @@ describe("App", () => {
 
         expect(wrapper.text()).toContain(atob(triviaResponse.results[1].question));
     });
+
+    it("Resets the highlights when the question changes", () => {
+        const correctAnswer: string = atob(triviaResponse.results[0].correct_answer);
+        wrapper.find(`button[content="${correctAnswer}"`).trigger("click");
+
+        expect(wrapper.find(".correct").exists()).toBe(true);
+        jest.advanceTimersByTime(1000);
+        expect(wrapper.find(".correct").exists()).toBe(false);
+    });
 });

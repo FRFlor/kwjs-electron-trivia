@@ -15,7 +15,7 @@
 </template>
 
 <script lang="ts">
-    import {Component, Prop, Vue} from "vue-property-decorator";
+    import {Component, Watch, Prop, Vue} from "vue-property-decorator";
     import {ITrivia} from "@/types";
 
     @Component
@@ -43,6 +43,11 @@
                 : "incorrect-answer";
 
             this.$emit(eventName);
+        }
+
+        @Watch('trivia.question')
+        private resetAnswer(): void {
+            this.answerGiven = "";
         }
     }
 </script>
