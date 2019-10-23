@@ -46,3 +46,14 @@
         }
     }
 </script>
+
+
+<style lang="scss" scoped>
+    .incorrect {
+        background-color: hsl(0, 60%, 70%);
+    }
+
+    .correct {
+        background-color: hsl(120, 60%, 70%);
+    }
+</style>
