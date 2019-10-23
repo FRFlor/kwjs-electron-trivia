@@ -52,7 +52,14 @@ describe("TriviaQuestion", () => {
         expect(wrapper.find(`.possible-answer[content="${incorrectAnswer}"]`).classes("incorrect")).toBe(true);
     });
 
-    it("Highlights the answer selected with '.incorrect' if the answer selected is wrong", () => {
+    it("Emits an 'incorrect-answer' event when the incorrect answer is given", () => {
+        const incorrectAnswer: string = trivia.incorrect_answers[0];
+        wrapper.find(`.possible-answer[content="${incorrectAnswer}"]`).trigger("click");
+
+        expect(wrapper.emitted("incorrect-answer")).toBeTruthy();
+    });
+
+    it("Highlights the answer selected with '.correct' if the answer selected is right", () => {
         const correctAnswer: string = trivia.correct_answer;
         wrapper.find(`.possible-answer[content="${correctAnswer}"]`).trigger("click");
 
@@ -64,5 +71,12 @@ describe("TriviaQuestion", () => {
         wrapper.find(`.possible-answer[content="${incorrectAnswer}"]`).trigger("click");
 
         expect(wrapper.find(`.possible-answer[content="${trivia.correct_answer}"]`).classes("correct")).toBe(true);
+    });
+
+    it("Emits an 'correct-answer' event when the correct answer is given", () => {
+        const correctAnswer: string = trivia.correct_answer;
+        wrapper.find(`.possible-answer[content="${correctAnswer}"]`).trigger("click");
+
+        expect(wrapper.emitted("correct-answer")).toBeTruthy();
     });
 });

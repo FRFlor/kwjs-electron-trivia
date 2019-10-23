@@ -10,7 +10,7 @@
                     'incorrect': answerGiven === answer && answerGiven !== correctAnswer,
                     'correct': answerGiven && answer === correctAnswer
                 }"
-                @click="answerGiven = answer"/>
+                @click="answerQuestion(answer)"/>
     </div>
 </template>
 
@@ -34,6 +34,15 @@
 
         private get correctAnswer(): string {
             return this.trivia.correct_answer;
+        }
+
+        private answerQuestion(answerGiven: string): void {
+            this.answerGiven = answerGiven;
+            const eventName: string = this.answerGiven === this.correctAnswer
+                ? "correct-answer"
+                : "incorrect-answer";
+
+            this.$emit(eventName);
         }
     }
 </script>
