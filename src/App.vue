@@ -61,7 +61,15 @@
 </script>
 
 <style lang="scss">
-    #app {
+    html, body {
+        margin: 0;
+        background-color: lightseagreen;
+    }
 
+    #app {
+        display: flex;
+        padding-top: 2.5rem;
+        justify-content: center;
+        align-items: center;
     }
 </style>

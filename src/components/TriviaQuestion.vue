@@ -1,16 +1,18 @@
 <template>
     <div class="trivia-question">
         <div class="question-prompt" v-text="trivia.question"/>
-        <button class="possible-answer"
-                v-for="(answer, index) in possibleAnswers"
-                :key="index"
-                v-text="answer"
-                :content="answer"
-                :class="{
+        <div class="answers-container">
+            <button class="possible-answer"
+                    v-for="(answer, index) in possibleAnswers"
+                    :key="index"
+                    v-text="answer"
+                    :content="answer"
+                    :class="{
                     'incorrect': answerGiven === answer && answerGiven !== correctAnswer,
                     'correct': answerGiven && answer === correctAnswer
-                }"
-                @click="answerQuestion(answer)"/>
+                    }"
+                    @click="answerQuestion(answer)"/>
+        </div>
     </div>
 </template>
 
@@ -54,11 +56,49 @@
 
 
 <style lang="scss" scoped>
-    .incorrect {
-        background-color: hsl(0, 60%, 70%);
-    }
+    .trivia-question {
+        background-color: lightcyan;
+        max-width: 30rem;
+        border-radius: 0.75rem;
+        display: flex;
+        flex-direction: column;
+        padding: 1rem;
 
-    .correct {
-        background-color: hsl(120, 60%, 70%);
+        .question-prompt {
+            font-size: 1.5rem;
+            color: hsl(0, 0%, 21%);
+            text-align: center;
+        }
+        .answers-container {
+            margin-top: 2rem;
+            .possible-answer {
+                background-color: hsl(210, 80%, 46%);
+                color: whitesmoke;
+                min-width: 25rem;
+                padding: 0.75rem;
+                border-radius: 0.25rem;
+                &:not(:first-child) {
+                    margin-top: 0.5rem;
+                }
+                font-size: 1rem;
+
+                &:hover {
+                    cursor: pointer;
+                    filter: brightness(120%);
+                }
+
+                &.correct {
+                    background-color: forestgreen;
+                }
+
+                &.incorrect {
+                    background-color: orangered;
+                }
+            }
+
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
     }
 </style>
