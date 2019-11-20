@@ -10,7 +10,7 @@
     "electron:serve": "vue-cli-service electron:serve",
     "postinstall": "electron-builder install-app-deps",
     "postuninstall": "electron-builder install-app-deps",
-    "test:unit": "vue-cli-service test:unit"
+    "test": "vue-cli-service test:unit"
   },
   "dependencies": {
     "core-js": "^2.6.5",
